@@ -2,8 +2,13 @@ import fastify from 'fastify';
 import { ZodError } from 'zod';
 import { env } from '@/env';
 import { appRoutes } from '@/http/controllers/routes';
+import fastifyCookie from '@fastify/cookie';
 
 export const app = fastify();
+
+app.register(fastifyCookie, {
+    secret: env.COOKIE_ACCESS,
+});
 
 app.register(appRoutes);
 

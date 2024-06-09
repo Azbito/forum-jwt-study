@@ -18,18 +18,19 @@ model User {
   name          String
   email         String   @unique
   password_hash String
+  jwt_token     String?  @unique
   created_at    DateTime @default(now())
-  Post          Post[]
+  posts         Post[]   @relation("user_posts")
 
   @@map("users")
 }
 
 model Post {
-  User        User     @relation(fields: [userId], references: [id])
   id          String   @id @default(uuid())
   title       String
   description String
   userId      String
+  user        User     @relation("user_posts", fields: [userId], references: [id])
   created_at  DateTime @default(now())
 
   @@map("posts")

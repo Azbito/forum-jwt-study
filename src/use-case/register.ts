@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { PrismaUsersRepository } from './repositories/prisma/users-repository';
+import { PrismaUsersRepository } from '@/repositories/prisma/users-repository';
 import { hash } from 'bcryptjs';
 
 interface RegisterUseCaseRequest {
