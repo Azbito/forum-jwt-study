@@ -35,10 +35,10 @@ export async function authenticate(
 
             return reply.status(200).send({ accessToken });
         } else {
-            return reply.status(401).send({ message: 'Credenciais inválidas' });
+            return reply.status(401).send({ message: '❌ Invalid credentials' });
         }
     } catch (err) {
         console.error('Erro durante a autenticação:', err);
-        return reply.status(500).send({ message: 'Erro interno do servidor' });
+        return reply.status(500).send({ message: '🚧 Internal server error' });
     }
 }
