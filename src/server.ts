@@ -7,3 +7,7 @@ app.listen({
 }).then(() => {
     console.log('🎈 HTTP Server running');
 });
+app.addHook('onError', (request, reply, error, done) => {
+    console.error('Error:', error);
+    done();
+});

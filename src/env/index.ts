@@ -6,6 +6,10 @@ const envSchema = z.object({
     PORT: z.coerce.number().default(3333),
     JWT_ACCESS: z.string(),
     COOKIE_ACCESS: z.string(),
+    ACCESS_KEY_S3: z.string(),
+    SECRET_KEY_S3: z.string(),
+    BUCKET_NAME: z.string(),
+    BUCKET_REGION: z.string()
 });
 
 const _env = envSchema.safeParse(process.env);
