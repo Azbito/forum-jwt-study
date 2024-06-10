@@ -3,13 +3,19 @@ import { ZodError } from 'zod';
 import { env } from '@/env';
 import { appRoutes } from '@/http/controllers/routes';
 import fastifyCookie from '@fastify/cookie';
-import fastifyMultipart from '@fastify/multipart'
+import fastifyMultipart from '@fastify/multipart';
+import fastifyJwt from '@fastify/jwt';
 
 export const app = fastify();
 app.register(fastifyMultipart);
 
 app.register(fastifyCookie, {
     secret: env.COOKIE_ACCESS,
+});
+
+app.register(fastifyJwt, {
+    secret: env.JWT_ACCESS,
+    sign: { expiresIn: '7d' },
 });
 
 app.register(appRoutes);

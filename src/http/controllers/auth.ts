@@ -17,28 +17,19 @@ export async function authenticate(
 
     try {
         const authenticateUseCase = makeAuthenticateUserCase();
-        const userRepository = new PrismaUsersRepository();
 
-        const user = await authenticateUseCase.execute({ email, password });
-
+        const { user } = await authenticateUseCase.execute({ email, password });
         if (user) {
-            const accessToken = generateJWT(email);
-
-            await userRepository.insertToken(accessToken, email);
-
-            reply.setCookie('jwt_token', accessToken, {
-                path: '/',
-                httpOnly: true,
-                secure: true,
-                sameSite: 'strict',
-            });
+            const payload = { sub: user.id, email };
+            const accessToken = await reply.jwtSign(payload);
 
             return reply.status(200).send({ accessToken });
         } else {
-            return reply.status(401).send({ message: '❌ Invalid credentials' });
+            return reply
+                .status(401)
+                .send({ message: '❌ Invalid credentials' });
         }
     } catch (err) {
-        console.error('Erro durante a autenticação:', err);
         return reply.status(500).send({ message: '🚧 Internal server error' });
     }
 }

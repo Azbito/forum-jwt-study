@@ -11,28 +11,15 @@ export async function posts(request: FastifyRequest, reply: FastifyReply) {
         description: z.string(),
     });
 
-    const token = request.cookies.jwt_token;
-    if (!token)
-        return reply.status(401).send({ message: '⚠️ Access token missing' });
+    const currentUserID = request.user.sub;
 
-    const user = await prisma.user.findUnique({
-        where: {
-            jwt_token: token
-        }
-    });
-
-    if (!user) return reply.status(404).send({ message: '🤔 User not found' });
+    if (!currentUserID)
+        return reply.status(404).send({ message: '🤔 User not found' });
 
     const { title, description } = postsBodySchema.parse(request.body);
 
-    const dbToken = user.jwt_token;
-
-    if (token !== dbToken) {
-        return reply.status(403).send({ message: '❌ Unauthorized!' });
-    }
-
     const postsUseCase = makePostsUseCase();
-    await postsUseCase.execute({ title, description }, user);
+    await postsUseCase.execute({ title, description, userId: currentUserID });
 
     return reply.status(200).send();
 }

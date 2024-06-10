@@ -18,7 +18,6 @@ model User {
   name          String
   email         String   @unique
   password_hash String
-  jwt_token     String?  @unique
   created_at    DateTime @default(now())
   posts         Post[]   @relation("user_posts")
 
