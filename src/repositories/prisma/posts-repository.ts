@@ -14,6 +14,7 @@ export class PrismaPostsRepository {
         const post = await prisma.post.delete({
             where: {
                 id: postID,
+                userId: userID,
             },
         });
 

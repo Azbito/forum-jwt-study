@@ -25,11 +25,11 @@ export class DeleteUserUseCase {
         const user = await PrismaUsersRepository.findByEmail(email);
 
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('🔍 User not found');
         }
 
         if (user.id !== userID) {
-            throw new Error('Unauthorized access');
+            throw new Error('🚧 Unauthorized access');
         }
 
         const doesHashedPasswordMatch = await compare(
@@ -38,11 +38,11 @@ export class DeleteUserUseCase {
         );
 
         if (!doesHashedPasswordMatch) {
-            throw new Error('Invalid password');
+            throw new Error('❌ Invalid password');
         }
 
         if (password !== passwordVerify) {
-            throw new Error('Passwords do not match');
+            throw new Error('❌ Passwords do not match');
         }
 
         const deleteAllPosts = await this.usersRepository.deleteAllUsersPost(
@@ -50,13 +50,13 @@ export class DeleteUserUseCase {
         );
 
         if (!deleteAllPosts) {
-            throw new Error('User not found or already deleted');
+            throw new Error('⚠️ User not found or already deleted');
         }
 
         const deletedUser = await this.usersRepository.deleteById(user.id);
 
         if (!deletedUser) {
-            throw new Error('User not found or already deleted');
+            throw new Error('⚠️ User not found or already deleted');
         }
 
         return { deletedUser };
