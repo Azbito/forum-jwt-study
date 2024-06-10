@@ -32,7 +32,6 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
         const { email } = validationResult.data.params;
         let { page } = validationResult.data.query;
 
-        // Set a default value for page if it's not provided or empty
         if (!page) {
             page = '1';
         }
@@ -46,7 +45,6 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
 
         return reply.status(200).send({ posts: getPosts });
     } catch (error: any) {
-        console.error('Error in getPosts:', error);
         return reply.status(500).send({ message: 'Internal Server Error' });
     }
 }

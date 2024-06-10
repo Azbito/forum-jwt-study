@@ -1,6 +1,14 @@
 import { prisma } from '@/lib/prisma';
 import { Prisma, User } from '@prisma/client';
 
+interface UserData {
+    name?: string;
+    username?: string;
+    oldEmail?: string;
+    password?: string;
+    currentUserID: string;
+}
+
 export class PrismaUsersRepository {
     async create(data: Prisma.UserCreateInput) {
         const user = await prisma.user.create({
@@ -15,6 +23,27 @@ export class PrismaUsersRepository {
             where: {
                 email,
             },
+        });
+    }
+
+    async findByUsername(username: string) {
+        return await prisma.user.findUnique({
+            where: {
+                username,
+            },
+        });
+    }
+
+    async updateInfo({
+        oldEmail,
+        username,
+        name,
+        password,
+        currentUserID,
+    }: UserData) {
+        return await prisma.user.update({
+            where: { id: currentUserID },
+            data: { email: oldEmail, username, name, password_hash: password },
         });
     }
 
