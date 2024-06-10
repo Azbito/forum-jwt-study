@@ -1,9 +1,6 @@
 import { makePostsUseCase } from '@/use-case/factories/make-post';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import { verify } from 'jsonwebtoken';
-import { env } from '@/env';
-import { prisma } from '@/lib/prisma';
 
 export async function posts(request: FastifyRequest, reply: FastifyReply) {
     const postsBodySchema = z.object({

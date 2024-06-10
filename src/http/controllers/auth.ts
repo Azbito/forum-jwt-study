@@ -1,5 +1,3 @@
-import { generateJWT } from '@/@utils/generateJWT';
-import { PrismaUsersRepository } from '@/repositories/prisma/users-repository';
 import { makeAuthenticateUserCase } from '@/use-case/factories/make-auth';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
@@ -20,9 +18,8 @@ export async function authenticate(
 
         const { user } = await authenticateUseCase.execute({ email, password });
         if (user) {
-            const payload = { sub: user.id, email };
+            const payload = { sub: user.id };
             const accessToken = await reply.jwtSign(payload);
-
             return reply.status(200).send({ accessToken });
         } else {
             return reply

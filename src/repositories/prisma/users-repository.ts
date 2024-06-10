@@ -14,7 +14,7 @@ export class PrismaUsersRepository {
         return await prisma.user.findUnique({
             where: {
                 email,
-            }
+            },
         });
     }
 
@@ -24,10 +24,26 @@ export class PrismaUsersRepository {
         });
     }
 
-    async insertToken(token: string | null, email: string) {
-        return await prisma.user.update({
-            where: { email },
-            data: { jwt_token: token },
+    async deleteById(userId: string): Promise<User | null> {
+        return prisma.user.delete({
+            where: {
+                id: userId,
+            },
         });
     }
+
+    async deleteAllUsersPost(userId: string) {
+        return prisma.post.deleteMany({
+            where: {
+                userId: userId,
+            },
+        });
+    }
+
+    // async insertToken(token: string | null, email: string) {
+    //     return await prisma.user.update({
+    //         where: { email },
+    //         data: { jwt_token: token },
+    //     });
+    // }
 }

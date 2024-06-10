@@ -3,7 +3,8 @@ import { register } from '@/http/controllers/register';
 import { posts } from '@/http/controllers/posts';
 import { authenticate } from '@/http/controllers/auth';
 import { uploadImage } from '@/http/controllers/upload-image';
-import { verifyJWT } from '../middlewares/verify-jwt';
+import { verifyJWT } from '@/http/middlewares/verify-jwt';
+import { deleteAccount } from '@/http/controllers/delete-account';
 
 export async function appRoutes(app: FastifyInstance) {
     app.post('/register', register);
@@ -16,4 +17,11 @@ export async function appRoutes(app: FastifyInstance) {
     );
     app.post('/login', authenticate);
     app.post('/upload-image', uploadImage);
+    app.delete(
+        '/remove-user',
+        {
+            onRequest: [verifyJWT],
+        },
+        deleteAccount,
+    );
 }

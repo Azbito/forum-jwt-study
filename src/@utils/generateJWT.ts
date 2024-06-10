@@ -3,5 +3,5 @@ import { sign } from 'jsonwebtoken';
 
 export function generateJWT(user: string) {
     const payload = { user };
-    return sign(payload, env.JWT_ACCESS, { expiresIn: '15m' });
+    return sign(payload, env.JWT_ACCESS, { expiresIn: '7d' });
 }
