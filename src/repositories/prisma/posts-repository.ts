@@ -19,4 +19,16 @@ export class PrismaPostsRepository {
 
         return post;
     }
+
+    async findManyPostsByEmail(email: string, page: number) {
+        const postsPerPage = 10;
+        const skip = (page - 1) * postsPerPage;
+
+        return await prisma.post.findMany({
+            where: { user: { email } },
+            skip,
+            take: postsPerPage,
+            orderBy: { created_at: 'desc' },
+        });
+    }
 }

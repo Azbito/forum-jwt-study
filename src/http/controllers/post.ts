@@ -2,7 +2,7 @@ import { makePostsUseCase } from '@/use-case/factories/make-post';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function posts(request: FastifyRequest, reply: FastifyReply) {
+export async function post(request: FastifyRequest, reply: FastifyReply) {
     const postsBodySchema = z.object({
         title: z.string(),
         description: z.string(),
