@@ -5,10 +5,11 @@ import { appRoutes } from '@/http/controllers/routes';
 import fastifyCookie from '@fastify/cookie';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyJwt from '@fastify/jwt';
+import fastifyCors from '@fastify/cors';
 
 export const app = fastify();
 app.register(fastifyMultipart);
-
+app.register(fastifyCors);
 app.register(fastifyCookie, {
     secret: env.COOKIE_ACCESS,
 });

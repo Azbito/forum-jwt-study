@@ -28,7 +28,7 @@ export class FileUploader {
 
             return reply.send({ success: true, data: uploadResponse });
         } catch (error) {
-            console.error('Error uploading file:', error);
+            // data log
         }
     }
 }

@@ -21,13 +21,13 @@ export class AuthenticateUseCase {
         const user = await PrismaUsersRepository.findByEmail(email);
 
         if (!user) {
-            throw new Error('Invalid');
+            throw new Error('🚧 Invalid credentials');
         }
 
         const doPasswordsMatch = await compare(password, user.password_hash);
 
         if (!doPasswordsMatch) {
-            throw new Error('Invalid');
+            throw new Error('🚧 Invalid credentials');
         }
 
         return { user };

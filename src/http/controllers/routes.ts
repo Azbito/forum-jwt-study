@@ -7,6 +7,7 @@ import { verifyJWT } from '@/http/middlewares/verify-jwt';
 import { deleteAccount } from '@/http/controllers/delete-account';
 import { deletePost } from '@/http/controllers/delete-post';
 import { getPosts } from './get-posts';
+import { getImages } from './get-image';
 
 export async function appRoutes(app: FastifyInstance) {
     // GET
@@ -18,6 +19,8 @@ export async function appRoutes(app: FastifyInstance) {
         },
         getPosts,
     );
+
+    app.get('/get-image', getImages);
 
     // POST
 

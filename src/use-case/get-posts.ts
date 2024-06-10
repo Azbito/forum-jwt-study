@@ -26,7 +26,7 @@ export class GetPostsUseCase {
 
             return { getPosts };
         } catch (error) {
-            throw new Error('Failed to fetch posts');
+            throw new Error('🦠 Failed to fetch posts');
         }
     }
 }
