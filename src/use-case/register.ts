@@ -26,7 +26,12 @@ export class RegisterUseCase {
         }
 
         const password_hash = await hash(password, 5);
-        //const userWithSameEmail = await this.usersRepository.findByEmail(email)
+        const userWithSameEmail =
+            await PrismaUsersRepository.findByEmail(email);
+
+        if (userWithSameEmail) {
+            throw new Error();
+        }
 
         const user = await this.usersRepository.create({
             name,

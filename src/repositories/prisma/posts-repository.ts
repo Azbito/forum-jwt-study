@@ -9,4 +9,14 @@ export class PrismaPostsRepository {
 
         return post;
     }
+
+    async delete(postID: string, userID: string) {
+        const post = await prisma.post.delete({
+            where: {
+                id: postID,
+            },
+        });
+
+        return post;
+    }
 }

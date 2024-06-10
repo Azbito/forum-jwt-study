@@ -14,7 +14,7 @@ export async function deleteAccount(
 
     try {
         if (!request.user || !request.user.sub) {
-            throw new Error('Unauthorized access');
+            throw new Error('❌ Unauthorized access');
         }
 
         const { email, password, passwordVerify } =
@@ -32,7 +32,7 @@ export async function deleteAccount(
 
         return reply
             .status(200)
-            .send({ message: 'Account deleted successfully' });
+            .send({ message: '🪦 Account deleted successfully' });
     } catch (error: any) {
         return reply
             .status(400)

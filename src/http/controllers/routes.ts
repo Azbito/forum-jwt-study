@@ -5,6 +5,7 @@ import { authenticate } from '@/http/controllers/auth';
 import { uploadImage } from '@/http/controllers/upload-image';
 import { verifyJWT } from '@/http/middlewares/verify-jwt';
 import { deleteAccount } from '@/http/controllers/delete-account';
+import { deletePost } from '@/http/controllers/delete-post';
 
 export async function appRoutes(app: FastifyInstance) {
     app.post('/register', register);
@@ -23,5 +24,12 @@ export async function appRoutes(app: FastifyInstance) {
             onRequest: [verifyJWT],
         },
         deleteAccount,
+    );
+    app.delete(
+        '/remove-post',
+        {
+            onRequest: [verifyJWT],
+        },
+        deletePost,
     );
 }
