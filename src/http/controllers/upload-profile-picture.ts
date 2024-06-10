@@ -1,14 +1,14 @@
 import { makeImageUseCase } from '@/use-case/factories/make-image';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
-const fileDownloader = makeImageUseCase();
+const fileUploader = makeImageUseCase();
 
-export async function downloadImage(
+export async function uploadImage(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
     try {
-        await fileDownloader.download(request, reply);
+        await fileUploader.upload(request, reply);
     } catch (error) {
         console.error('Error handling file upload:', error);
         reply

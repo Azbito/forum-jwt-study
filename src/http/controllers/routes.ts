@@ -2,12 +2,12 @@ import { FastifyInstance } from 'fastify';
 import { register } from '@/http/controllers/register';
 import { post } from '@/http/controllers/post';
 import { authenticate } from '@/http/controllers/auth';
-import { uploadImage } from '@/http/controllers/upload-image';
 import { verifyJWT } from '@/http/middlewares/verify-jwt';
 import { deleteAccount } from '@/http/controllers/delete-account';
 import { deletePost } from '@/http/controllers/delete-post';
 import { getPosts } from './get-posts';
-import { getImages } from './get-image';
+import { downloadImage } from './get-image';
+import { uploadImage } from './upload-profile-picture';
 
 export async function appRoutes(app: FastifyInstance) {
     // GET
@@ -20,7 +20,13 @@ export async function appRoutes(app: FastifyInstance) {
         getPosts,
     );
 
-    app.get('/get-image', getImages);
+    app.get(
+        '/get-image',
+        {
+            onRequest: [verifyJWT],
+        },
+        downloadImage,
+    );
 
     // POST
 

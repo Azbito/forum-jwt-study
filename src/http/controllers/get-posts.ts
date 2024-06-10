@@ -8,12 +8,9 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
             email: z.string().email(),
         }),
         query: z.object({
-            page: z.string().optional(), // Made page parameter optional
+            page: z.string().optional().default('1'),
         }),
     });
-
-    console.log('Req params', request.params);
-    console.log('Req query', request.query);
 
     try {
         if (!request.user || !request.user.sub) {

@@ -40,6 +40,14 @@ export class PrismaUsersRepository {
         });
     }
 
+    async fetchProfilePicture(url: string, userID: string) {
+        return prisma.user.findMany({
+            where: {
+                id: userID,
+                profile_picture: url,
+            },
+        });
+    }
     // async insertToken(token: string | null, email: string) {
     //     return await prisma.user.update({
     //         where: { email },
