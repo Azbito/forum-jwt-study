@@ -7,19 +7,15 @@ export async function authenticate(
     reply: FastifyReply,
 ) {
     const authenticateBodySchema = z.object({
-        email: z.string().email().optional(),
-        username: z.string().optional(),
+        username: z.string(),
         password: z.string().min(6),
     });
 
-    const { email, username, password } = authenticateBodySchema.parse(
-        request.body,
-    );
+    const { username, password } = authenticateBodySchema.parse(request.body);
 
     const authenticateUseCase = makeAuthenticateUserCase();
 
     const { user } = await authenticateUseCase.execute({
-        email,
         username,
         password,
     });
