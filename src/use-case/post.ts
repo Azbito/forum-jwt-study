@@ -2,7 +2,6 @@ import { Post } from '@prisma/client';
 import { PrismaPostsRepository } from '@/repositories/prisma/posts-repository';
 
 interface PostUseCaseRequest {
-    title: string;
     description: string;
     userId: string;
 }
@@ -17,10 +16,9 @@ export class PostUseCase {
     async execute(
         postRequest: PostUseCaseRequest,
     ): Promise<PostUseCaseResponse> {
-        const { title, description, userId } = postRequest;
+        const { description, userId } = postRequest;
 
         const post = await this.postsRepository.create({
-            title,
             description,
             userId,
         });

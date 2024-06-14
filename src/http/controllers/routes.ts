@@ -14,7 +14,7 @@ export async function appRoutes(app: FastifyInstance) {
     // GET
 
     app.get(
-        '/users/:email/get-posts',
+        '/users/:username/get-posts',
         {
             onRequest: [verifyJWT],
         },

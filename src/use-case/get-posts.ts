@@ -2,7 +2,7 @@ import { Post } from '@prisma/client';
 import { PrismaPostsRepository } from '@/repositories/prisma/posts-repository';
 
 interface GetPostsRequest {
-    email: string;
+    username: string;
     page: number;
 }
 
@@ -16,11 +16,11 @@ export class GetPostsUseCase {
     async getUserPosts(
         postRequest: GetPostsRequest,
     ): Promise<GetPostsResponse> {
-        const { email, page } = postRequest;
+        const { username, page } = postRequest;
 
         try {
-            const getPosts = await this.postsRepository.findManyPostsByEmail(
-                email,
+            const getPosts = await this.postsRepository.findManyPostsByUsername(
+                username,
                 page,
             );
 

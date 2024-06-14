@@ -32,4 +32,16 @@ export class PrismaPostsRepository {
             orderBy: { created_at: 'desc' },
         });
     }
+
+    async findManyPostsByUsername(username: string, page: number) {
+        const postsPerPage = 10;
+        const skip = (page - 1) * postsPerPage;
+
+        return await prisma.post.findMany({
+            where: { user: { username } },
+            skip,
+            take: postsPerPage,
+            orderBy: { created_at: 'desc' },
+        });
+    }
 }

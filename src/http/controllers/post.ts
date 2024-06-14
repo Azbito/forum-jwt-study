@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 export async function post(request: FastifyRequest, reply: FastifyReply) {
     const postsBodySchema = z.object({
-        title: z.string(),
         description: z.string(),
     });
 
@@ -13,10 +12,10 @@ export async function post(request: FastifyRequest, reply: FastifyReply) {
     if (!currentUserID)
         return reply.status(404).send({ message: '🤔 User not found' });
 
-    const { title, description } = postsBodySchema.parse(request.body);
+    const { description } = postsBodySchema.parse(request.body);
 
     const postsUseCase = makePostsUseCase();
-    await postsUseCase.execute({ title, description, userId: currentUserID });
+    await postsUseCase.execute({ description, userId: currentUserID });
 
     return reply.status(200).send();
 }

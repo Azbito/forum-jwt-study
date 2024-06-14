@@ -5,7 +5,7 @@ import { z } from 'zod';
 export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
     const getPostsSchema = z.object({
         params: z.object({
-            email: z.string().email(),
+            username: z.string(),
         }),
         query: z.object({
             page: z.string().optional().default('1'),
@@ -29,7 +29,7 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
             });
         }
 
-        const { email } = validationResult.data.params;
+        const { username } = validationResult.data.params;
         let { page } = validationResult.data.query;
 
         if (!page) {
@@ -39,7 +39,7 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
         const getUserPostsUseCase = makeGetPostsUseCase();
 
         const { getPosts } = await getUserPostsUseCase.getUserPosts({
-            email,
+            username,
             page: Number(page),
         });
 
