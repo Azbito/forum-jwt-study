@@ -53,6 +53,15 @@ export class PrismaPostsRepository {
             skip,
             take: postsPerPage,
             orderBy: { created_at: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        username: true,
+                        name: true,
+                        profile_picture: true,
+                    },
+                },
+            },
         });
     }
 }
