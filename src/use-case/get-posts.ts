@@ -1,8 +1,12 @@
 import { Post } from '@prisma/client';
 import { PrismaPostsRepository } from '@/repositories/prisma/posts-repository';
 
-interface GetPostsRequest {
+interface GetPostsByUsernameRequest {
     username: string;
+    page: number;
+}
+
+interface GetAllPostsRequest {
     page: number;
 }
 
@@ -14,7 +18,7 @@ export class GetPostsUseCase {
     constructor(private postsRepository: PrismaPostsRepository) {}
 
     async getUserPosts(
-        postRequest: GetPostsRequest,
+        postRequest: GetPostsByUsernameRequest,
     ): Promise<GetPostsResponse> {
         const { username, page } = postRequest;
 
@@ -23,6 +27,20 @@ export class GetPostsUseCase {
                 username,
                 page,
             );
+
+            return { getPosts };
+        } catch (error) {
+            throw new Error('🦠 Failed to fetch posts');
+        }
+    }
+
+    async getAllPosts(
+        postRequest: GetAllPostsRequest,
+    ): Promise<GetPostsResponse> {
+        const { page } = postRequest;
+
+        try {
+            const getPosts = await this.postsRepository.findManyPosts(page);
 
             return { getPosts };
         } catch (error) {

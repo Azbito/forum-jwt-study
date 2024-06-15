@@ -2,7 +2,10 @@ import { makeGetPostsUseCase } from '@/use-case/factories/make-get-posts';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
+export async function getPostsByUsername(
+    request: FastifyRequest,
+    reply: FastifyReply,
+) {
     const getPostsSchema = z.object({
         params: z.object({
             username: z.string(),

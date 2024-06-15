@@ -5,10 +5,12 @@ import { authenticate } from '@/http/controllers/auth';
 import { verifyJWT } from '@/http/middlewares/verify-jwt';
 import { deleteAccount } from '@/http/controllers/delete-account';
 import { deletePost } from '@/http/controllers/delete-post';
-import { getPosts } from './get-posts';
 import { downloadImage } from './get-image';
 import { uploadImage } from './upload-profile-picture';
 import { updateUserInfo } from './update-user-info';
+import { getPostsByUsername } from './get-posts-by-username';
+import { getAllPosts } from './get-all-posts';
+import { getUserInfo } from './get-user-info';
 
 export async function appRoutes(app: FastifyInstance) {
     // GET
@@ -18,8 +20,10 @@ export async function appRoutes(app: FastifyInstance) {
         {
             onRequest: [verifyJWT],
         },
-        getPosts,
+        getPostsByUsername,
     );
+
+    app.get('/users/get-posts', getAllPosts);
 
     app.get(
         '/get-image',
@@ -28,6 +32,8 @@ export async function appRoutes(app: FastifyInstance) {
         },
         downloadImage,
     );
+
+    app.get('/user/:username', getUserInfo);
 
     // POST
 
