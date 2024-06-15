@@ -33,7 +33,7 @@ export async function appRoutes(app: FastifyInstance) {
         downloadImage,
     );
 
-    app.get('/user/:username', getUserInfo);
+    app.get('/user/:id', getUserInfo);
 
     // POST
 

@@ -9,7 +9,7 @@ export async function getUserInfo(
 ) {
     const getUserInfoSchema = z.object({
         params: z.object({
-            username: z.string(),
+            id: z.string(),
         }),
     });
 
@@ -19,7 +19,7 @@ export async function getUserInfo(
         const getUserUseCase = makeGetUserInfo();
 
         const { user } = await getUserUseCase.getInfos({
-            username: params.username,
+            id: params.id,
         });
         return reply.status(200).send({ user });
     } catch (error: any) {
