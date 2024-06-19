@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export async function post(request: FastifyRequest, reply: FastifyReply) {
     const postsBodySchema = z.object({
-        description: z.string(),
+        description: z.string().max(250),
     });
 
     const currentUserID = request.user.sub;

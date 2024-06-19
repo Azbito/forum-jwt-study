@@ -3,7 +3,8 @@ import { PrismaUsersRepository } from '@/repositories/prisma/users-repository';
 import { InvalidCredentialsError, MissingCredentialsError } from '@/errors';
 
 interface GetUserInfoUseCaseRequest {
-    id: string;
+    username: string;
+    id?: string;
 }
 
 interface GetUserInfoUseCaseResponse {
@@ -16,10 +17,28 @@ export class GetUserInfoUseCase {
     async getInfos(
         userRequest: GetUserInfoUseCaseRequest,
     ): Promise<GetUserInfoUseCaseResponse> {
+        const { username } = userRequest;
+
+        try {
+            const user = await this.usersRepository.findByUsername(username);
+
+            if (!user) {
+                throw new InvalidCredentialsError('User not found');
+            }
+
+            return { user };
+        } catch (error) {
+            throw new Error('Failed to fetch user information');
+        }
+    }
+
+    async getInfosById(
+        userRequest: GetUserInfoUseCaseRequest,
+    ): Promise<GetUserInfoUseCaseResponse> {
         const { id } = userRequest;
 
         try {
-            const user = await this.usersRepository.findById(id);
+            const user = await this.usersRepository.findById(id!);
 
             if (!user) {
                 throw new InvalidCredentialsError('User not found');

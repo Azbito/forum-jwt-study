@@ -8,19 +8,20 @@ import { deletePost } from '@/http/controllers/delete-post';
 import { downloadImage } from './get-image';
 import { uploadImage } from './upload-profile-picture';
 import { updateUserInfo } from './update-user-info';
-import { getPostsByUsername } from './get-posts-by-username';
 import { getAllPosts } from './get-all-posts';
 import { getUserInfo } from './get-user-info';
+import { getCurrentUser } from './get-current-user';
+import { getPosts } from './get-posts-by-username';
 
 export async function appRoutes(app: FastifyInstance) {
     // GET
 
     app.get(
-        '/users/:username/get-posts',
+        '/user/:identifier/get-posts',
         {
             onRequest: [verifyJWT],
         },
-        getPostsByUsername,
+        getPosts,
     );
 
     app.get('/users/get-posts', getAllPosts);
@@ -33,8 +34,15 @@ export async function appRoutes(app: FastifyInstance) {
         downloadImage,
     );
 
-    app.get('/user/:id', getUserInfo);
+    app.get('/user/:idOrUsername', getUserInfo);
 
+    app.get(
+        '/user',
+        {
+            onRequest: [verifyJWT],
+        },
+        getCurrentUser,
+    );
     // POST
 
     app.post('/register', register);

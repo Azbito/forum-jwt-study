@@ -2,13 +2,10 @@ import { makeGetPostsUseCase } from '@/use-case/factories/make-get-posts';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-export async function getPostsByUsername(
-    request: FastifyRequest,
-    reply: FastifyReply,
-) {
+export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
     const getPostsSchema = z.object({
         params: z.object({
-            username: z.string(),
+            identifier: z.string(),
         }),
         query: z.object({
             page: z.string().optional().default('1'),
@@ -32,7 +29,7 @@ export async function getPostsByUsername(
             });
         }
 
-        const { username } = validationResult.data.params;
+        const { identifier } = validationResult.data.params;
         let { page } = validationResult.data.query;
 
         if (!page) {
@@ -40,11 +37,23 @@ export async function getPostsByUsername(
         }
 
         const getUserPostsUseCase = makeGetPostsUseCase();
+        let getPosts;
 
-        const { getPosts } = await getUserPostsUseCase.getUserPosts({
-            username,
-            page: Number(page),
-        });
+        if (isNaN(Number(identifier))) {
+            // Assuming identifier is a username
+            const result = await getUserPostsUseCase.getUserPosts({
+                username: identifier,
+                page: Number(page),
+            });
+            getPosts = result.getPosts;
+        } else {
+            // Assuming identifier is a user ID
+            const result = await getUserPostsUseCase.getUserPostsById({
+                id: identifier,
+                page: Number(page),
+            });
+            getPosts = result.getPosts;
+        }
 
         return reply.status(200).send({ posts: getPosts });
     } catch (error: any) {

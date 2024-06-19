@@ -45,6 +45,18 @@ export class PrismaPostsRepository {
         });
     }
 
+    async findManyPostsById(id: string, page: number) {
+        const postsPerPage = 10;
+        const skip = (page - 1) * postsPerPage;
+
+        return await prisma.post.findMany({
+            where: { user: { id } },
+            skip,
+            take: postsPerPage,
+            orderBy: { created_at: 'desc' },
+        });
+    }
+
     async findManyPosts(page: number) {
         const postsPerPage = 10;
         const skip = (page - 1) * postsPerPage;
